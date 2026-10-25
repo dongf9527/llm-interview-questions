@@ -6,9 +6,17 @@ import os
 import sys
 import hashlib
 
-PDF_SKILL_DIR = '/home/z/my-project/skills/pdf'
+# 仓库相对路径：所有资源/输出均相对本脚本所在目录解析，便于跨环境复用
+_HERE = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(_HERE)              # 仓库根目录
+BUILD_DIR = os.path.join(REPO_ROOT, 'build')     # 构建产物目录（已 gitignore）
+
+# 混排字形回退模块（pdf skill）目录：默认尝试本仓常见的辅助库位置，
+# 可用环境变量 PDF_SKILL_DIR 覆盖；找不到时优雅降级（告警不中断），
+# 届时 CJK/西文混排的特殊字符可能缺字形，由使用者自行评估。
+PDF_SKILL_DIR = os.environ.get('PDF_SKILL_DIR', '/home/z/my-project/skills/pdf')
 _scripts = os.path.join(PDF_SKILL_DIR, 'scripts')
-if _scripts not in sys.path:
+if os.path.isdir(_scripts) and _scripts not in sys.path:
     sys.path.insert(0, _scripts)
 
 from reportlab.lib.pagesizes import A4
@@ -25,7 +33,13 @@ from reportlab.platypus import (
 from reportlab.platypus.tableofcontents import TableOfContents
 
 # ============ 字体注册（仅允许的字体清单） ============
-FONT_DIR = '/usr/share/fonts'
+# 可用环境变量 FONT_DIR 覆盖字体根目录（默认 /usr/share/fonts）
+FONT_DIR = os.environ.get('FONT_DIR', '/usr/share/fonts')
+_FONT_PROBE = f'{FONT_DIR}/truetype/noto-serif-sc/NotoSerifSC-Regular.ttf'
+if not os.path.exists(_FONT_PROBE):
+    raise SystemExit(
+        f'缺少中文字体 {_FONT_PROBE}。'
+        '请安装 Noto Serif SC，或设 FONT_DIR 指向字体根目录后重试。')
 pdfmetrics.registerFont(TTFont('NotoSerifSC', f'{FONT_DIR}/truetype/noto-serif-sc/NotoSerifSC-Regular.ttf'))
 pdfmetrics.registerFont(TTFont('NotoSerifSC-Bold', f'{FONT_DIR}/truetype/noto-serif-sc/NotoSerifSC-Bold.ttf'))
 # 注：静态版 NotoSansSC-Regular.ttf 在本机不存在（仅有变量字体，ReportLab 不支持），
@@ -43,9 +57,13 @@ registerFontFamily('FreeSerif', normal='FreeSerif', bold='FreeSerif-Bold',
 registerFontFamily('DejaVuSans', normal='DejaVuSans', bold='DejaVuSans')
 registerFontFamily('SarasaMonoSC', normal='SarasaMonoSC', bold='SarasaMonoSC')
 
-# 混排字形回退（必调）
-from pdf import install_font_fallback
-install_font_fallback()
+# 混排字形回退（必调；未找到 pdf skill 辅助模块时降级告警）
+try:
+    from pdf import install_font_fallback
+    install_font_fallback()
+except ImportError:
+    print('[warn] 未找到 pdf skill 辅助模块（可将 PDF_SKILL_DIR 指向其根目录），'
+          '已跳过混排字形回退，特殊字符可能缺字形', file=sys.stderr)
 
 # ---- CJK 禁则补丁：ReportLab 4.x 的 ALL_CANNOT_START 缺少全角标点 ----
 # 缺「，：；！？—…」导致行首标点违例。单 frag 路径走 textsplit.dumbSplit，

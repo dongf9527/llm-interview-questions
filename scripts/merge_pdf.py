@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 """合并封面 + 正文为单一 PDF，统一 A4 尺寸并写入元数据"""
+import os
 from pypdf import PdfReader, PdfWriter
 
 A4_W, A4_H = 595.28, 841.89
 
-COVER = '/home/z/my-project/scripts/cover.pdf'
-BODY = '/home/z/my-project/download/body.pdf'
-OUT = '/home/z/my-project/download/llm-interview-questions-项目评估与实验手册.pdf'
+_BUILD = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'build')
+os.makedirs(_BUILD, exist_ok=True)
+
+COVER = os.path.join(_BUILD, 'cover.pdf')
+BODY = os.path.join(_BUILD, 'body.pdf')
+OUT = os.path.join(_BUILD, 'llm-interview-questions-项目评估与实验手册.pdf')
 
 
 def normalize(page):

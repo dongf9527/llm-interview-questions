@@ -6,10 +6,11 @@ import matplotlib
 import matplotlib.font_manager as fm
 import os
 
-# 中文字体：NotoSansSC 为变量字体，加载失败则回退 wqy-zenhei
+# 中文字体：优先 NotoSerifSC 静态版，缺失则回退 wqy-zenhei；根目录可用 FONT_DIR 覆盖
+_FONT_ROOT = os.environ.get('FONT_DIR', '/usr/share/fonts')
 _cn_candidates = [
-    '/usr/share/fonts/truetype/noto-serif-sc/NotoSerifSC-Regular.ttf',
-    '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+    f'{_FONT_ROOT}/truetype/noto-serif-sc/NotoSerifSC-Regular.ttf',
+    f'{_FONT_ROOT}/truetype/wqy/wqy-zenhei.ttc',
 ]
 _cn_font_name = None
 for _p in _cn_candidates:
@@ -20,7 +21,7 @@ for _p in _cn_candidates:
             break
         except Exception:
             continue
-fm.fontManager.addfont('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')
+fm.fontManager.addfont(f'{_FONT_ROOT}/truetype/dejavu/DejaVuSans.ttf')
 
 import matplotlib.pyplot as plt
 
@@ -35,9 +36,8 @@ BORDER = '#c0d0e2'
 MUTED = '#5a7a96'
 TEXT = '#142840'
 
-OUT = '/home/z/my-project/download/assets'
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets')
 
-import os
 os.makedirs(OUT, exist_ok=True)
 
 # ============ 图1：模块题量分布（横向条形图） ============

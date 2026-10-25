@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """内容模块 A：第一章 执行摘要 / 第二章 项目全景评估 / 第三章 利用策略 / 第四章 实验总体规划"""
+import os
 from report_common import (
     S, P, add_heading, h1_block, h2_block, h3_block, bullets, code_block,
     callout_box, stat_row, data_table, embed_chart, table_with_caption,
     Spacer, Paragraph, KeepTogether, AVAIL_W)
 
-ASSETS = '/home/z/my-project/download/assets'
+ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'assets')
 
 
 def chapter1(story):

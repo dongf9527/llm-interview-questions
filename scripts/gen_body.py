@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """主脚本：组装 9 章 story，multiBuild 生成正文 PDF（封面另行合并）"""
+import os
 import sys
-sys.path.insert(0, '/home/z/my-project/scripts')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from report_common import (
     S, make_doc, _paint_bg, DOC_TITLE, Spacer, Paragraph, PageBreak,
@@ -10,7 +11,9 @@ from reportlab.platypus.tableofcontents import TableOfContents
 import report_content_a as A
 import report_content_b as B
 
-OUT = '/home/z/my-project/download/body.pdf'
+_BUILD = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'build')
+os.makedirs(_BUILD, exist_ok=True)
+OUT = os.path.join(_BUILD, 'body.pdf')
 
 doc = make_doc(OUT)
 story = []

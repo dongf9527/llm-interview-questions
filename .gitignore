@@ -2,8 +2,8 @@
 __pycache__/
 *.py[cod]
 
-# 报告构建中间产物（可由 scripts/ 再生成）
-scripts/*.pdf
+# 报告构建产物（可由 scripts/ 再生成：render_cover → gen_charts → gen_body → merge_pdf）
+build/
 
 # 系统文件
 .DS_Store
