@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Inter:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 794px 1123px; margin: 0; }
+    :root {
+      --c-bg: #0a1628;        /* 深蓝夜空 */
+      --c-accent: #4da8da;    /* 荧光亮蓝 */
+      --c-text: #e8f0f8;      /* 冷白 */
+      --c-muted: #7a9bb8;      /* 蓝灰 */
+      --c-glow: #2d7ab3;      /* 中间蓝 */
+    }
+    html, body {
+      margin: 0; padding: 0; width: 794px; height: 1123px;
+      background: var(--c-bg); color: var(--c-text);
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    }
+    @media screen {
+      html { height: auto; display: flex; justify-content: center;
+             min-height: 100vh; background: var(--c-bg); }
+      body { transform-origin: top center;
+             scale: min(1, calc(100vw / 794), calc(100vh / 1123));
+             margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.35); }
+    }
+    .cover { width: 794px; height: 1123px; position: relative;
+             box-sizing: border-box; border: none; outline: none; }
+
+    /* Layer 1 背景：柔光（必须 overflow:hidden 裁剪） */
+    .layer-bg { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+    .glow-a { position: absolute; left: 0; top: 0; width: 420px; height: 420px;
+              background: radial-gradient(circle at 30% 30%,
+              rgba(45,122,179,0.16), rgba(45,122,179,0) 65%); }
+    .glow-b { position: absolute; right: 0; bottom: 0; width: 480px; height: 480px;
+              background: radial-gradient(circle at 70% 70%,
+              rgba(45,122,179,0.13), rgba(45,122,179,0) 65%); }
+
+    /* Layer 2 结构：荧光蓝矩形框 */
+    .layer-frame { position: absolute; inset: 0; z-index: 2; }
+    .frame { position: absolute; left: 60px; right: 60px; top: 80px;
+             bottom: 80px; border: 2px solid var(--c-accent); }
+
+    /* Layer 3 内容 */
+    .layer-text { position: absolute; inset: 0; z-index: 3; }
+    .kicker {
+      position: absolute; left: 104px; top: 135px;
+      font-size: 11pt; font-weight: 300; color: var(--c-accent);
+      letter-spacing: 5px; text-transform: uppercase;
+    }
+    .repo {
+      position: absolute; left: 104px; top: 224px;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-size: 16.5pt; font-weight: 700; color: var(--c-accent);
+      letter-spacing: 0.5px;
+    }
+    .hero {
+      position: absolute; left: 104px; top: 272px;
+      font-family: 'Noto Serif SC', 'Inter', serif;
+      font-size: 42pt; font-weight: 900; line-height: 1.28;
+      color: var(--c-text); max-width: 600px;
+    }
+    .summary {
+      position: absolute; left: 104px; top: 505px;
+      font-family: 'Noto Sans SC', 'Inter', sans-serif;
+      font-size: 12.5pt; font-weight: 300; line-height: 1.75;
+      color: var(--c-muted); max-width: 520px; text-align: justify;
+    }
+    .meta {
+      position: absolute; left: 104px; top: 742px;
+      font-family: 'Noto Sans SC', 'Inter', sans-serif;
+      font-size: 13pt; color: var(--c-text); line-height: 1.7;
+    }
+    .meta .dim { color: var(--c-muted); font-size: 11pt; }
+    .date {
+      position: absolute; left: 104px; top: 968px;
+      font-size: 10pt; color: var(--c-muted); letter-spacing: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <div class="layer-bg">
+      <div class="glow-a"></div>
+      <div class="glow-b"></div>
+    </div>
+    <div class="layer-frame">
+      <div class="frame"></div>
+    </div>
+    <div class="layer-text">
+      <div class="kicker">Open Source &middot; Project Evaluation</div>
+      <div class="repo">github.com/MisterBooo/llm-interview-questions</div>
+      <div class="hero">大模型面试题图解 100<br>项目评估与实验手册</div>
+      <div class="summary">
+        对开源项目 llm-interview-questions 的全景评估：
+        100 道大模型面试题、100 张 SVG 图解与 14 个知识模块的质量分析；
+        并附一份面向 Colab 环境的一个月分阶段实验手册——
+        13 个代码实验与 1 个 LLM 评测集旗舰项目，
+        覆盖系统学习、动手实验与二次开发三重目标。
+      </div>
+      <div class="meta">
+        编制：Z.ai<br>
+        <span class="dim">作者：吴师兄（MisterBooo）&middot; 许可：CC BY-SA 4.0</span><br>
+        <span class="dim">适用读者：准备大模型方向求职的在校学生</span>
+      </div>
+      <div class="date">OCTOBER 2026 &middot; EVALUATION &amp; LAB MANUAL</div>
+    </div>
+  </div>
+</body>
+</html>
